@@ -47,7 +47,7 @@ class download_from_ws extends \core\task\adhoc_task {
             'filename' => $data->filename,
         );
 
-        $target_url = 'http://127.0.0.1:8001'.'/'.$data->url.'/'.$data->contextid.'/';
+        $target_url = 'http://127.0.0.1:8000'.'/'.$data->url.'/'.$data->contextid.'/';
 
         $fs = get_file_storage();
         

@@ -53,7 +53,7 @@ class send_to_ws extends \core\task\adhoc_task {
         $payload = json_encode($data_arr);
         $fs = get_file_storage();
         $file = $fs->get_file_by_hash($data->filehash);
-        $ch->post('http://127.0.0.1:8001/', array(
+        $ch->post('http://127.0.0.1:8000/add/', array(
             'video_file'=>$file,
             'batch_ID' => $data->batch_ID,
             'title' => $data->name,

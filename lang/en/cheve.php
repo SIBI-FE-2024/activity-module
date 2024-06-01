@@ -21,7 +21,7 @@
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod_cheve
+ * @package    gesture
  * @copyright  2019 Richard Jones richardnz@outlook.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_cheve
@@ -30,24 +30,24 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'cheve';
-$string['modulenameplural'] = 'cheves';
-$string['modulename_help'] = 'Use the cheve module for... | The cheve module allows...';
-$string['cheve:addinstance'] = 'Add a new cheve';
-$string['cheve:submit'] = 'Submit cheve';
-$string['cheve:view'] = 'View cheve';
+$string['modulename'] = 'gesture';
+$string['modulenameplural'] = 'gestures';
+$string['modulename_help'] = 'Use the gesture module for... | The cheve module allows...';
+$string['cheve:addinstance'] = 'Add a new gesture';
+$string['cheve:submit'] = 'Submit gesture';
+$string['cheve:view'] = 'View gesture';
 $string['chevefieldset'] = 'Custom example fieldset';
-$string['chevename'] = 'cheve Name';
+$string['chevename'] = 'Judul Gesture';
 $string['chevename_help'] = 'This is the content of the help tooltip associated with the chevename field. Markdown syntax is supported.';
 $string['cheve'] = 'cheve';
 $string['pluginadministration'] = 'cheve administration';
-$string['pluginname'] = 'cheve';
+$string['pluginname'] = 'gesture';
 $string['nocheves'] = 'No instances';
 
 // Mod form specific cheve settings.
-$string['title'] = 'Activity Title: ';
-$string['vidtype'] = 'Sync/Async';
-$string['lang'] = 'Language';
+$string['title'] = 'Judul Activity: ';
+$string['vidtype'] = 'Tipe Percakapan Video';
+$string['lang'] = 'Bahasa';
 $string['gender'] = 'Persona Gender';
-$string['major'] = 'Major of The Lecture';
+$string['major'] = 'Jurusan';
 $string['lecturevid'] = 'Video';

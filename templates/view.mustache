@@ -42,7 +42,9 @@
         {{{body}}}
 
         {{#has_original}}
-            <a href={{{file_original}}}>Click here to watch the unsubbed video</a>
+            <video width="640" height="480" controls>
+                <source src={{{file_original}}} type=video/mp4>
+            </video>
         {{/has_original}}
         {{^has_original}}
             <p> The original video is missing. </p>

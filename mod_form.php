@@ -65,7 +65,7 @@ class mod_cheve_mod_form extends moodleform_mod {
         $mform->addElement('select', 'videotype', get_string('vidtype', 'cheve'), array('Synchronous','Asynchronous'));
 
         // Adding language field.
-        $mform->addElement('text', 'language', get_string('lang', 'cheve'), array('size' => '64'));
+        $mform->addElement('select', 'language', get_string('lang', 'cheve'), array('SIBI','BISINDO'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('language', PARAM_TEXT);
         } else {
@@ -75,8 +75,6 @@ class mod_cheve_mod_form extends moodleform_mod {
         // Adding Select for Persona Gender
         $mform->addElement('select', 'personagender', get_string('gender', 'cheve'), array('Male','Female'));
 
-        // Adding Select for Major type
-        $mform->addElement('select', 'lecturemajor', get_string('major', 'cheve'), array('Computer Science','Information System'));
         
         
         // Adding filemanager
