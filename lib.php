@@ -106,8 +106,9 @@ function cheve_add_instance(stdClass $cheve, mod_cheve_mod_form $mform = null) {
 
         $fhash = $file->get_pathnamehash();
 
-        $sendfile = new mod_cheve\task\send_to_ws();
-        $sendfile->set_custom_data(array(
+        $data = array(
+            'filesfrom' => 'URL',
+            'url' => $url,
             'batch_ID' => $context->id,
             'name' => $cheve->name,
             'videotype' => $cheve->videotype,
@@ -115,12 +116,43 @@ function cheve_add_instance(stdClass $cheve, mod_cheve_mod_form $mform = null) {
             'personagender' => $cheve->personagender,
             'lecturemajor' => $cheve->lecturemajor,
             'filehash' => $fhash,
-        ));
-        \core\task\manager::queue_adhoc_task($sendfile);
+        );
+
+        $json_data = json_encode($data);
+
+        $headers = array(
+            'Content-Type: application/json',
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:8000/add');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Execute the cURL request
+        $response = curl_exec($ch);
+        //sleep(1000);
+        $message = json_decode($response, true)['message'];
+
+        // Check for any cURL errors
+        if (curl_errno($ch)) {
+            $errorMessage = curl_error($ch);
+        } else if ($message != "Request successful") {
+            $errorMessage = $message;
+        }
+        
+        if (!empty($errorMessage)) {
+            $_SESSION['cheve_error'] = $errorMessage;
+        }        
+
+        // Close the cURL session
+        curl_close($ch);
 
 
         # Downloading Animated Video
-        $ani_filename = $original_name.'_ANI.mp4';
+        $ani_filename = 'combined_'.$original_name;
         $downloadfile_ani = new mod_cheve\task\download_from_ws();
         $downloadfile_ani->set_custom_data(array(
             'contextid' => $context->id,
@@ -131,24 +163,11 @@ function cheve_add_instance(stdClass $cheve, mod_cheve_mod_form $mform = null) {
             'url' => 'animation'
         ));
         \core\task\manager::queue_adhoc_task($downloadfile_ani);
-
-
-        # Downloading Subtitle
-        $sub_filename = $original_name.'_SUB.txt';
-        $downloadfile_sub = new mod_cheve\task\download_from_ws();
-        $downloadfile_sub->set_custom_data(array(
-            'contextid' => $context->id,
-            'component' => 'mod_cheve',
-            'filearea' => 'lecturevid',
-            'mimetype' => 'text/*',
-            'filename' => $sub_filename,
-            'url' => 'subtitle'
-        ));
-        \core\task\manager::queue_adhoc_task($downloadfile_sub);
-
+        
+        return $cheve->id;
     }
 
-    return $cheve->id;
+
 }
 
 

@@ -15,16 +15,36 @@ public function execute() {
     $payload = json_encode($data_arr);
     $file = $this->getFileByHash($data->filehash);
 
-    $ch = curl_init('http://127.0.0.1:8000/add/');
+    $content = $mform->get_file_content('userfile');
+    $newfilename = $mform->get_new_filename('userfile');
+    $fromform->filename = $newfilename;
+
+    $shortpath = 'lecturevid/0/'. $newfilename;
+    $longpath = $CFG->wwwroot . '/local/sign/uploads/' . rawurlencode($newfilename);
+    $success = $mform->save_file('userfile', $shortpath, $override);
+    $fromform->url = $longpath;
+
+    $endpointUrl = 'http://127.0.0.1:8000/add';
+
+    $ch = curl_init();
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, array(
         'video_file' => $file,
         'data' => $payload
     ));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($ch);
-    curl_close($ch);
+    
+    // Check for any cURL errors
+    if (curl_errno($ch)) {
+        // Handle the error
+        $errorMessage = curl_error($ch);
+        redirect($CFG->wwwroot . '/local/sign/manage.php', $errorMessage, null, \core\notification::ERROR);
+    } else if ($message != "Request successful") {
+        redirect($CFG->wwwroot . '/local/sign/manage.php', $message, null, \core\notification::ERROR);
+    }
 
     // Process the response as needed
 }
