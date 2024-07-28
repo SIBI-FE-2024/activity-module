@@ -95,7 +95,7 @@ function cheve_add_instance(stdClass $cheve, mod_cheve_mod_form $mform = null) {
         
         $suffix = substr($file->get_filename(),-8);
         
-        $url = moodle_url::make_pluginfile_url(
+        $url = \moodle_url::make_pluginfile_url(
             $file->get_contextid(),
             $file->get_component(),
             $file->get_filearea(),
@@ -106,9 +106,11 @@ function cheve_add_instance(stdClass $cheve, mod_cheve_mod_form $mform = null) {
 
         $fhash = $file->get_pathnamehash();
 
+        error_log("Constructed URL: " . $url);
+
         $data = array(
             'filesfrom' => 'URL',
-            'url' => $url,
+            'url' => $url->__toString(),
             'batch_ID' => $context->id,
             'name' => $cheve->name,
             'videotype' => $cheve->videotype,
@@ -163,7 +165,7 @@ function cheve_add_instance(stdClass $cheve, mod_cheve_mod_form $mform = null) {
             'url' => 'animation'
         ));
         \core\task\manager::queue_adhoc_task($downloadfile_ani);
-        
+
         return $cheve->id;
     }
 
